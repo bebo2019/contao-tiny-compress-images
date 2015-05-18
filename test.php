@@ -24,27 +24,22 @@ class TinyCompressImagesTest extends \System
 		$objRequest = new Request();
 		$objRequest->method = 'post';
 		$objRequest->data = file_get_contents(TL_ROOT . '/files/!/10854473_403593456473882_4756343055560037901_o.jpg');
-		
-		// Müsste man hier nicht auch dynamisch png oder jpeg übergeben?
 		$objRequest->setHeader('Content-type', 'image/png');
 		$objRequest->setHeader('Authorization', $strAuthorization);
-				
 		$objRequest->send($strUrl);
 		
-		if (!$objRequest->hasError()) {
-			print 'funzt';
+		if ($objRequest->code == 201) {
+			//print 'Error: ' . $objRequest->error . '<br>';
+			//print 'Message:' . $objRequest->message . '<br>';
+			
+			$xxx = json_decode($objRequest->response);
+			file_put_contents(TL_ROOT . '/xxx.jpg', fopen($xxx->output->url, "rb", false));
+		} else {
+			// Logs
+			// [strResponse:protected] => {"error":"InputMissing","message":"File is empty"}
 		}
-		
-		
-		    //[error] => InputMissing
-			//[message] => File is empty
-		
-		
-		dump(json_decode($objRequest->response));
-		//dump($objRequest);	
 	}
 }
-
 
 $objTest = new TinyCompressImagesTest();
 $objTest->run();
