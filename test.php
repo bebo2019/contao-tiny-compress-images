@@ -23,17 +23,17 @@ class TinyCompressImagesTest extends \System
 		
 		$objRequest = new Request();
 		$objRequest->method = 'post';
-		$objRequest->data = file_get_contents(TL_ROOT . '/files/!/10854473_403593456473882_4756343055560037901_o.jpg');
+		$objRequest->data = file_get_contents(TL_ROOT . '/system/modules/tiny-compress-images/test/Contao_Community_Web.png');
 		$objRequest->setHeader('Content-type', 'image/png');
 		$objRequest->setHeader('Authorization', $strAuthorization);
 		$objRequest->send($strUrl);
 		
+		$arrResponse = json_decode($objRequest->response);
+		
 		if ($objRequest->code == 201) {
 			//print 'Error: ' . $objRequest->error . '<br>';
 			//print 'Message:' . $objRequest->message . '<br>';
-			
-			$xxx = json_decode($objRequest->response);
-			file_put_contents(TL_ROOT . '/xxx.jpg', fopen($xxx->output->url, "rb", false));
+			file_put_contents(TL_ROOT . '/system/modules/tiny-compress-images/test/Contao_Community_Web_small.png', fopen($arrResponse->output->url, "rb", false));
 		} else {
 			// Logs
 			// [strResponse:protected] => {"error":"InputMissing","message":"File is empty"}
