@@ -16,6 +16,7 @@ namespace Barkowsky;
 class TinyCompressImages extends \System
 {
 	
+	
 	/**
 	 *
 	 */
